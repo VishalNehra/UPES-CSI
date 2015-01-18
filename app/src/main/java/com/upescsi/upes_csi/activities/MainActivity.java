@@ -1,22 +1,23 @@
-package com.upescsi.upes_csi;
+package com.upescsi.upes_csi.activities;
 
 import android.app.Activity;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
+import android.widget.Toolbar;
+
+import com.upescsi.upes_csi.fragments.NavigationDrawerFragment;
+import com.upescsi.upes_csi.R;
 
 
 public class MainActivity extends ActionBarActivity
@@ -32,11 +33,17 @@ public class MainActivity extends ActionBarActivity
      */
     private CharSequence mTitle;
 
+    public android.support.v7.widget.Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // toolbar
+        toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.action_bar);
+        setSupportActionBar(toolbar);
+        toolbar.setBackgroundColor(Color.parseColor("#ff455a64"));
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
@@ -44,7 +51,7 @@ public class MainActivity extends ActionBarActivity
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
-                (DrawerLayout) findViewById(R.id.drawer_layout));
+                (DrawerLayout) findViewById(R.id.drawer_layout), this);
     }
 
     @Override

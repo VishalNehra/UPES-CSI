@@ -5,6 +5,9 @@
         <!-- Customize your theme here. -->
         <item name="android:textColorSecondary">#ffffff</item>
         <item name="android:textColorPrimary">@color/abc_primary_text_material_dark</item>
+
+        <!-- colorPrimaryDark is used for the status bar -->
+        <item name="colorPrimaryDark">@color/statusBarColor</item>
     </style>
 
 </resources>

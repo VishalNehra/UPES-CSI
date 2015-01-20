@@ -20,18 +20,24 @@ public class EventsAdapter extends ArrayAdapter<String> {
     private View row;
     private TextView eventTitle, eventSummary;
     private ImageView eventImage;
-    private ArrayList<String> items;
+    private ArrayList<String> titleItems, summaryItems;
 
-    public EventsAdapter(Context context, int resource, ArrayList<String> items) {
-        super(context, resource, items);
+    public EventsAdapter(Context context, int resource, ArrayList<String> titleItems, ArrayList<String> summaryItems) {
+        super(context, resource, titleItems);
         this.context = context;
-        this.items = items;
+        this.titleItems = titleItems;
+        this.summaryItems = summaryItems;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         row = inflater.inflate(R.layout.events_row, null);
-        return super.getView(position, convertView, parent);
+        eventTitle = (TextView) row.findViewById(R.id.eventTitle);
+        eventTitle.setText(titleItems.get(position));
+        eventSummary = (TextView) row.findViewById(R.id.eventSummary);
+        eventSummary.setText(summaryItems.get(position));
+
+        return row;
     }
 }

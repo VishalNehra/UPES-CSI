@@ -6,6 +6,8 @@ import android.widget.Toast;
 
 import com.upescsi.upes_csi.R;
 import com.upescsi.upes_csi.adapters.EventsAdapter;
+import com.upescsi.upes_csi.database.Event;
+import com.upescsi.upes_csi.database.EventHandler;
 import com.upescsi.upes_csi.fragments.EventsFragment;
 
 import org.jsoup.Jsoup;
@@ -14,6 +16,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Vishal on 20-01-2015.
@@ -23,6 +26,7 @@ public class EventItemsTask extends AsyncTask<Void, Void, Void> {
     private ArrayList<String> eventTitleItems, eventSummaryItems;
     private EventsFragment eventsFragment;
     private Document document;
+    private EventHandler eventHandler;
 
     public EventItemsTask (EventsFragment eventsFragment) {
         this.eventsFragment = eventsFragment;
@@ -32,6 +36,10 @@ public class EventItemsTask extends AsyncTask<Void, Void, Void> {
     protected void onPreExecute() {
         super.onPreExecute();
         Toast.makeText(eventsFragment.getActivity(), "Fetching...", Toast.LENGTH_LONG).show();
+        eventHandler = new EventHandler(eventsFragment.getActivity(), null, null, 1);
+        if (eventHandler.getAllEvents()!=null) {
+            //eventHandler.clear();
+        }
     }
 
     @Override
@@ -52,6 +60,13 @@ public class EventItemsTask extends AsyncTask<Void, Void, Void> {
             }
             for (Element e : paragraph) {
                 eventSummaryItems.add(e.text());
+            }
+            Event event = new Event();
+            for (int i = 0 ; i<eventTitleItems.size(); i++) {
+                event.setEventNo(i);
+                event.setEventTitle(eventTitleItems.get(i));
+                event.setEventSummary(eventSummaryItems.get(i));
+                eventHandler.addEvent(event);
             }
 
         } catch (Exception e) {

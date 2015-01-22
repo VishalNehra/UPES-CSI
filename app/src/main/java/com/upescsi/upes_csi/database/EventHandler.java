@@ -29,7 +29,7 @@ public class EventHandler extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_EVENTS_TABLE = "CREATE TABLE " + TABLE_EVENTS + "("
-                + COLUMN_EVENT_NO + "INTEGER PRIMARY KEY,"
+                + COLUMN_EVENT_NO + " INTEGER PRIMARY KEY,"
                 + COLUMN_EVENT_TITLE + " TEXT," + COLUMN_EVENT_SUMMARY + " TEXT" + ")";
         db.execSQL(CREATE_EVENTS_TABLE);
     }
@@ -88,5 +88,12 @@ public class EventHandler extends SQLiteOpenHelper {
         cursor.close();
         sqLiteDatabase.close();
         return eventList;
+    }
+
+    public void clear() {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        sqLiteDatabase.delete(TABLE_EVENTS, COLUMN_EVENT_NO + " = ?", new String[]{"" + 1});
+        sqLiteDatabase.delete(TABLE_EVENTS, COLUMN_EVENT_NO + " = ?", new String[]{"" + 2});
+        sqLiteDatabase.close();
     }
 }

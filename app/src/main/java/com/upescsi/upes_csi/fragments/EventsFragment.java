@@ -7,6 +7,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -46,21 +47,7 @@ public class EventsFragment extends Fragment {
         titleItems = new ArrayList<String>();
         summaryItems = new ArrayList<String>();
 
-        if (isNetworkAvailable()) {
-
-            new EventItemsTask(this).execute();
-        } else {
-            if (eventHandler.getAllEvents()!=null) {
-                for (Event event : eventHandler.getAllEvents()) {
-                    titleItems.add(event.getEventTitle());
-                    summaryItems.add(event.getEventSummary());
-                }
-                eventsAdapter = new EventsAdapter(getActivity(), android.R.layout.activity_list_item, titleItems, summaryItems);
-                listView.setAdapter(eventsAdapter);
-            } else {
-                Toast.makeText(getActivity(), "Connect to internet..", Toast.LENGTH_LONG).show();
-            }
-        }
+        setView();
         setHasOptionsMenu(true);
         return rootView;
     }
@@ -76,7 +63,7 @@ public class EventsFragment extends Fragment {
         int id = item.getItemId();
         switch (id) {
             case R.id.refresh:
-                new EventItemsTask(this).execute();
+                setView();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -95,4 +82,24 @@ public class EventsFragment extends Fragment {
         } else
             return false;
     }
+
+    private void setView() {
+
+        if (isNetworkAvailable()) {
+
+            new EventItemsTask(this).execute();
+        } else {
+            if (eventHandler.getAllEvents().size()!=0) {
+                for (Event event : eventHandler.getAllEvents()) {
+                    titleItems.add(event.getEventTitle());
+                    summaryItems.add(event.getEventSummary());
+                }
+                eventsAdapter = new EventsAdapter(getActivity(), android.R.layout.activity_list_item, titleItems, summaryItems);
+                listView.setAdapter(eventsAdapter);
+            } else {
+                Toast.makeText(getActivity(), "Connect to internet..", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
 }

@@ -27,6 +27,7 @@ public class EventItemsTask extends AsyncTask<Void, Void, Void> {
     private EventsFragment eventsFragment;
     private Document document;
     private EventHandler eventHandler;
+    private Event event;
 
     public EventItemsTask (EventsFragment eventsFragment) {
         this.eventsFragment = eventsFragment;
@@ -37,8 +38,8 @@ public class EventItemsTask extends AsyncTask<Void, Void, Void> {
         super.onPreExecute();
         Toast.makeText(eventsFragment.getActivity(), "Fetching...", Toast.LENGTH_LONG).show();
         eventHandler = new EventHandler(eventsFragment.getActivity(), null, null, 1);
-        if (eventHandler.getAllEvents()!=null) {
-            //eventHandler.clear();
+        if (eventHandler.getAllEvents().size()!=0) {
+            eventHandler.clear();
         }
     }
 
@@ -61,13 +62,6 @@ public class EventItemsTask extends AsyncTask<Void, Void, Void> {
             for (Element e : paragraph) {
                 eventSummaryItems.add(e.text());
             }
-            Event event = new Event();
-            for (int i = 0 ; i<eventTitleItems.size(); i++) {
-                event.setEventNo(i);
-                event.setEventTitle(eventTitleItems.get(i));
-                event.setEventSummary(eventSummaryItems.get(i));
-                eventHandler.addEvent(event);
-            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -78,6 +72,14 @@ public class EventItemsTask extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
+
+        event = new Event();
+        for (int i = 0 ; i<eventTitleItems.size(); i++) {
+            event.setEventNo(i);
+            event.setEventTitle(eventTitleItems.get(i));
+            event.setEventSummary(eventSummaryItems.get(i));
+            eventHandler.addEvent(event);
+        }
 
         eventsFragment.eventsAdapter = new EventsAdapter(eventsFragment.getActivity(), R.layout.events_row, eventTitleItems, eventSummaryItems);
         eventsFragment.listView.setAdapter(eventsFragment.eventsAdapter);

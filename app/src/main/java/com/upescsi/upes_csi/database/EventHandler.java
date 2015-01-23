@@ -22,14 +22,15 @@ public class EventHandler extends SQLiteOpenHelper {
     private static final String COLUMN_EVENT_TITLE = "title";
     private static final String COLUMN_EVENT_SUMMARY = "summary";
 
-    public EventHandler(Context context, String name, SQLiteDatabase.CursorFactory cursorFactory, int version) {
-        super(context, name, cursorFactory, version);
+    public EventHandler(Context context, String name,
+                     SQLiteDatabase.CursorFactory factory, int version) {
+        super(context, DATABASE_NAME, factory, DATABASE_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_EVENTS_TABLE = "CREATE TABLE " + TABLE_EVENTS + "("
-                + COLUMN_EVENT_NO + " INTEGER PRIMARY KEY,"
+                + COLUMN_EVENT_NO + " INTEGER,"
                 + COLUMN_EVENT_TITLE + " TEXT," + COLUMN_EVENT_SUMMARY + " TEXT" + ")";
         db.execSQL(CREATE_EVENTS_TABLE);
     }
@@ -92,8 +93,7 @@ public class EventHandler extends SQLiteOpenHelper {
 
     public void clear() {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-        sqLiteDatabase.delete(TABLE_EVENTS, COLUMN_EVENT_NO + " = ?", new String[]{"" + 1});
-        sqLiteDatabase.delete(TABLE_EVENTS, COLUMN_EVENT_NO + " = ?", new String[]{"" + 2});
+        sqLiteDatabase.delete(TABLE_EVENTS, null, null);
         sqLiteDatabase.close();
     }
 }

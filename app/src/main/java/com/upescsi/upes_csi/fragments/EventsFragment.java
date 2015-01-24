@@ -14,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,7 +33,7 @@ import java.util.ArrayList;
  */
 public class EventsFragment extends Fragment {
     private View rootView;
-    public ListView listView;
+    public GridView gridView;
     public EventsAdapter eventsAdapter;
     private ArrayList<String> titleItems, summaryItems;
     private EventHandler eventHandler;
@@ -42,7 +43,7 @@ public class EventsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView =  inflater.inflate(R.layout.fragment_events, null);
-        listView = (ListView) rootView.findViewById(R.id.listView);
+        gridView = (GridView) rootView.findViewById(R.id.gridView);
         eventHandler = new EventHandler(getActivity(), null, null, 1);
         titleItems = new ArrayList<String>();
         summaryItems = new ArrayList<String>();
@@ -94,8 +95,9 @@ public class EventsFragment extends Fragment {
                     titleItems.add(event.getEventTitle());
                     summaryItems.add(event.getEventSummary());
                 }
-                eventsAdapter = new EventsAdapter(getActivity(), android.R.layout.activity_list_item, titleItems, summaryItems);
-                listView.setAdapter(eventsAdapter);
+                eventsAdapter = new EventsAdapter(getActivity(), android.R.layout.activity_list_item,
+                        titleItems, summaryItems, null);
+                gridView.setAdapter(eventsAdapter);
             } else {
                 Toast.makeText(getActivity(), "Connect to internet..", Toast.LENGTH_LONG).show();
             }

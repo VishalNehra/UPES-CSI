@@ -22,8 +22,9 @@ import java.util.List;
  * Created by Vishal on 20-01-2015.
  */
 public class EventItemsTask extends AsyncTask<Void, Void, Void> {
-    private static final String URL = "http://upescsi.in/event.html";
-    private ArrayList<String> eventTitleItems, eventSummaryItems;
+    private static final String URL_EVENTS = "http://upescsi.in/event.html";
+    private static final String URL = "http://upescsi.in";
+    private ArrayList<String> eventTitleItems, eventSummaryItems, eventImageURLs;
     private EventsFragment eventsFragment;
     private Document document;
     private EventHandler eventHandler;
@@ -50,8 +51,9 @@ public class EventItemsTask extends AsyncTask<Void, Void, Void> {
 
             eventTitleItems = new ArrayList<String>();
             eventSummaryItems = new ArrayList<String>();
+            eventImageURLs = new ArrayList<String>();
             
-            document = Jsoup.connect(URL).get();
+            document = Jsoup.connect(URL_EVENTS).get();
             // Using elements to get class data
             Elements headers = document.select("h4[class=lh_inherit m_md_bottom_5 d_sm_none d_xs_block]");
             Elements imgTags = document.select("img[src$=.jpg]");
@@ -61,7 +63,8 @@ public class EventItemsTask extends AsyncTask<Void, Void, Void> {
                 eventTitleItems.add(e.text());
             }
             for (Element e : imgTags) {
-                eventSummaryItems.add(e.attr("src"));
+                eventSummaryItems.add(URL + "/" + e.attr("src"));
+                eventImageURLs.add(URL + "/" + e.attr("src"));
             }
 
             event = new Event();
@@ -82,7 +85,8 @@ public class EventItemsTask extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
 
-        eventsFragment.eventsAdapter = new EventsAdapter(eventsFragment.getActivity(), R.layout.events_row, eventTitleItems, eventSummaryItems);
-        eventsFragment.listView.setAdapter(eventsFragment.eventsAdapter);
+        eventsFragment.eventsAdapter = new EventsAdapter(eventsFragment.getActivity(),
+                R.layout.events_row, eventTitleItems, eventSummaryItems, eventImageURLs);
+        eventsFragment.gridView.setAdapter(eventsFragment.eventsAdapter);
     }
 }

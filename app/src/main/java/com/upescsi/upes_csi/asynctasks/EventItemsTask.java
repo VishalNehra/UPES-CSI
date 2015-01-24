@@ -22,7 +22,7 @@ import java.util.List;
  * Created by Vishal on 20-01-2015.
  */
 public class EventItemsTask extends AsyncTask<Void, Void, Void> {
-    private static final String URL = "http://upescsi.in/events/index.html";
+    private static final String URL = "http://upescsi.in/event.html";
     private ArrayList<String> eventTitleItems, eventSummaryItems;
     private EventsFragment eventsFragment;
     private Document document;
@@ -53,14 +53,23 @@ public class EventItemsTask extends AsyncTask<Void, Void, Void> {
             
             document = Jsoup.connect(URL).get();
             // Using elements to get class data
-            Elements headers = document.select("h3");
-            headers.remove(0);
-            Elements paragraph = document.select("p");
+            Elements headers = document.select("h4[class=lh_inherit m_md_bottom_5 d_sm_none d_xs_block]");
+            Elements imgTags = document.select("img[src$=.jpg]");
+            Element pngTag = document.select("img[src$=.png").get(1);
+            imgTags.add(pngTag);
             for (Element e : headers) {
                 eventTitleItems.add(e.text());
             }
-            for (Element e : paragraph) {
-                eventSummaryItems.add(e.text());
+            for (Element e : imgTags) {
+                eventSummaryItems.add(e.attr("src"));
+            }
+
+            event = new Event();
+            for (int i = 0 ; i<eventTitleItems.size(); i++) {
+                event.setEventNo(i);
+                event.setEventTitle(eventTitleItems.get(i));
+                event.setEventSummary(eventSummaryItems.get(i));
+                eventHandler.addEvent(event);
             }
 
         } catch (Exception e) {
@@ -72,14 +81,6 @@ public class EventItemsTask extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-
-        event = new Event();
-        for (int i = 0 ; i<eventTitleItems.size(); i++) {
-            event.setEventNo(i);
-            event.setEventTitle(eventTitleItems.get(i));
-            event.setEventSummary(eventSummaryItems.get(i));
-            eventHandler.addEvent(event);
-        }
 
         eventsFragment.eventsAdapter = new EventsAdapter(eventsFragment.getActivity(), R.layout.events_row, eventTitleItems, eventSummaryItems);
         eventsFragment.listView.setAdapter(eventsFragment.eventsAdapter);

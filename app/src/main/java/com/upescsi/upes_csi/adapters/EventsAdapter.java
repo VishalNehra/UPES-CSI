@@ -36,7 +36,7 @@ public class EventsAdapter extends ArrayAdapter<String> {
         eventTitle = (TextView) row.findViewById(R.id.eventTitle);
         eventTitle.setText(titleItems.get(position));
         eventSummary = (TextView) row.findViewById(R.id.eventSummary);
-        eventSummary.setText(summaryItems.get(position));
+        //eventSummary.setText(summaryItems.get(position));
 
         return row;
     }

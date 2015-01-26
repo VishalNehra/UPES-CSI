@@ -87,6 +87,6 @@ public class EventItemsTask extends AsyncTask<Void, Void, Void> {
 
         eventsFragment.eventsAdapter = new EventsAdapter(eventsFragment.getActivity(),
                 R.layout.events_row, eventTitleItems, eventSummaryItems, eventImageURLs);
-        eventsFragment.gridView.setAdapter(eventsFragment.eventsAdapter);
+        eventsFragment.listView.setAdapter(eventsFragment.eventsAdapter);
     }
 }

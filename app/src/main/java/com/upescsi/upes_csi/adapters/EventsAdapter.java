@@ -2,12 +2,15 @@ package com.upescsi.upes_csi.adapters;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -34,6 +37,7 @@ public class EventsAdapter extends ArrayAdapter<String> {
     private ImageLoaderConfiguration imageLoaderConfiguration;
     private DisplayImageOptions displayImageOptions;
     ImageSize imageSize;
+    RelativeLayout relativeLayout;
 
     public EventsAdapter(Context context, int resource, ArrayList<String> titleItems,
                          ArrayList<String> summaryItems, ArrayList<String> imageURLs) {
@@ -42,18 +46,8 @@ public class EventsAdapter extends ArrayAdapter<String> {
         this.titleItems = titleItems;
         this.summaryItems = summaryItems;
         this.imageURLs = imageURLs;
-    }
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        row = inflater.inflate(R.layout.events_row, null);
-        eventTitle = (TextView) row.findViewById(R.id.eventTitle);
-        eventTitle.setText(titleItems.get(position));
-        eventSummary = (TextView) row.findViewById(R.id.eventSummary);
-        eventImage = (ImageView) row.findViewById(R.id.eventImage);
-        eventSummary.setText(summaryItems.get(position));
-
+        // Image loaders
         // Create default options which will be used for every displayImage() call
         // if no options will be passed to this method
         displayImageOptions = new DisplayImageOptions.Builder()
@@ -65,7 +59,20 @@ public class EventsAdapter extends ArrayAdapter<String> {
                 .defaultDisplayImageOptions(displayImageOptions)
                 .build();
         ImageLoader.getInstance().init(imageLoaderConfiguration);
-        imageSize = new ImageSize(80,50);
+    }
+
+    @Override
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        row = inflater.inflate(R.layout.events_row, null);
+        eventTitle = (TextView) row.findViewById(R.id.eventTitle);
+        eventTitle.setText(titleItems.get(position));
+        eventSummary = (TextView) row.findViewById(R.id.eventSummary);
+        eventImage = (ImageView) row.findViewById(R.id.eventImage);
+        eventSummary.setText(summaryItems.get(position));
+        relativeLayout = (RelativeLayout) row.findViewById(R.id.events_row_parent);
+
+        imageSize = new ImageSize(240,240);
         //ImageLoader.getInstance().displayImage(summaryItems.get(position), eventImage, displayImageOptions);
         ImageLoader.getInstance().loadImage(summaryItems.get(position), imageSize,
                 displayImageOptions, new SimpleImageLoadingListener() {
@@ -73,9 +80,18 @@ public class EventsAdapter extends ArrayAdapter<String> {
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                         // Do whatever you want with Bitmap
                         eventImage.setImageBitmap(loadedImage);
+                        int holderWidth = eventImage.getWidth();
+                        int bitmapWidth = loadedImage.getWidth();
+                        if (bitmapWidth < holderWidth) {
+                            Log.d("image width", bitmapWidth + "" + " of " + position);
+                            eventTitle.setWidth(bitmapWidth);
+                        } else {
+                            Log.d("image width", holderWidth + " of " + position);
+                            eventTitle.setWidth(holderWidth);
+                        }
                     }
                 });
-
+        eventTitle.setBackgroundColor(Color.parseColor("#50989898"));
         return row;
     }
 }

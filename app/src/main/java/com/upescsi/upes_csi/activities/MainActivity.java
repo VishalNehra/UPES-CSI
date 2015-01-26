@@ -21,6 +21,7 @@ import android.widget.Toolbar;
 import com.upescsi.upes_csi.fragments.EventsFragment;
 import com.upescsi.upes_csi.fragments.NavigationDrawerFragment;
 import com.upescsi.upes_csi.R;
+import com.upescsi.upes_csi.fragments.TeamFragment;
 
 
 public class MainActivity extends ActionBarActivity
@@ -72,6 +73,10 @@ public class MainActivity extends ActionBarActivity
             case 2:
                 Toast.makeText(this, "About", Toast.LENGTH_LONG).show();
                 break;
+            case 3:
+                fragmentManager.beginTransaction().replace(R.id.container, new TeamFragment()).commit();
+                break;
+
         }
     }
 
@@ -85,6 +90,9 @@ public class MainActivity extends ActionBarActivity
                 break;
             case 3:
                 mTitle = getString(R.string.about);
+                break;
+            case 4:
+                mTitle = getString(R.string.team);
                 break;
         }
     }

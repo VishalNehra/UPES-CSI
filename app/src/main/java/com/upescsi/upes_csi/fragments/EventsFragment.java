@@ -2,6 +2,7 @@ package com.upescsi.upes_csi.fragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -33,7 +34,7 @@ import java.util.ArrayList;
  */
 public class EventsFragment extends Fragment {
     private View rootView;
-    public GridView gridView;
+    public ListView listView;
     public EventsAdapter eventsAdapter;
     private ArrayList<String> titleItems, summaryItems;
     private EventHandler eventHandler;
@@ -43,10 +44,12 @@ public class EventsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView =  inflater.inflate(R.layout.fragment_events, null);
-        gridView = (GridView) rootView.findViewById(R.id.gridView);
+        listView = (ListView) rootView.findViewById(R.id.listView);
         eventHandler = new EventHandler(getActivity(), null, null, 1);
         titleItems = new ArrayList<String>();
         summaryItems = new ArrayList<String>();
+        //getActivity().getWindow().getDecorView().setBackgroundColor(Color.WHITE);
+        listView.setBackgroundColor(Color.WHITE);
 
         setView();
         setHasOptionsMenu(true);
@@ -97,7 +100,7 @@ public class EventsFragment extends Fragment {
                 }
                 eventsAdapter = new EventsAdapter(getActivity(), android.R.layout.activity_list_item,
                         titleItems, summaryItems, null);
-                gridView.setAdapter(eventsAdapter);
+                listView.setAdapter(eventsAdapter);
             } else {
                 Toast.makeText(getActivity(), "Connect to internet..", Toast.LENGTH_LONG).show();
             }

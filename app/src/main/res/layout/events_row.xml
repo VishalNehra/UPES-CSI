@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:id="@+id/events_row_parent"
+    android:layout_width="240dp" android:layout_height="240dp">
 
     <ImageView
         android:id="@+id/eventImage"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"/>
+        android:layout_width="240dp"
+        android:layout_height="240dp"/>
     <TextView
         android:id="@+id/eventTitle"
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
         android:gravity="center_horizontal"
-        android:layout_below="@id/eventImage"/>
+        android:textColor="@android:color/white"/>
     <TextView
         android:id="@+id/eventSummary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
         android:layout_below="@+id/eventTitle"
         android:gravity="center_horizontal"
         android:padding="16dp"

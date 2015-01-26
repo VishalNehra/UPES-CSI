@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android" android:ordering="sequentially">
+    <!-- fade in -->
+    <objectAnimator
+        android:propertyName="alpha"
+        android:duration="2000"
+        android:valueFrom="0.0"
+        android:valueTo="1.0"
+        android:valueType="floatType"
+        />
+
+    <!-- slide in-->
+    <objectAnimator
+        android:propertyName="y"
+        android:duration="2000"
+        android:interpolator="@android:anim/accelerate_interpolator"
+        android:valueFrom="-200"
+        android:valueTo="100"
+        android:valueType="intType"
+        />
+    <!-- fade out -->
+    <objectAnimator
+        android:propertyName="alpha"
+        android:duration="2000"
+        android:valueFrom="1.0"
+        android:valueTo="0.0"
+        android:valueType="floatType"
+        />
+
+
+</set>

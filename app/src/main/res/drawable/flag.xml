@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/flaganim"
+    android:oneshot="false"
+    >
+    <item android:drawable="@drawable/csi" android:duration="6500" />
+    <item android:drawable="@drawable/logo" android:duration="6500" />
+    <item android:drawable="@drawable/csi_2" android:duration="6500" />
+
+</animation-list> 

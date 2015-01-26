@@ -18,6 +18,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import com.upescsi.upes_csi.fragments.AboutFragment;
 import com.upescsi.upes_csi.fragments.EventsFragment;
 import com.upescsi.upes_csi.fragments.NavigationDrawerFragment;
 import com.upescsi.upes_csi.R;
@@ -71,7 +72,7 @@ public class MainActivity extends ActionBarActivity
                 Toast.makeText(this, "Contact", Toast.LENGTH_LONG).show();
                 break;
             case 2:
-                Toast.makeText(this, "About", Toast.LENGTH_LONG).show();
+                fragmentManager.beginTransaction().replace(R.id.container, new AboutFragment()).commit();
                 break;
             case 3:
                 fragmentManager.beginTransaction().replace(R.id.container, new TeamFragment()).commit();

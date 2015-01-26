@@ -4,8 +4,17 @@
     android:id="@+id/flaganim"
     android:oneshot="false"
     >
-    <item android:drawable="@drawable/csi" android:duration="6500" />
-    <item android:drawable="@drawable/logo" android:duration="6500" />
-    <item android:drawable="@drawable/csi_2" android:duration="6500" />
+    <item android:drawable="@drawable/csi" android:duration="4500" />
+    <item android:drawable="@drawable/logo" android:duration="4500" />
+     <item android:drawable="@drawable/csi_5" android:duration="4500" />
+    <item android:drawable="@drawable/csi_2" android:duration="4500" />
+    <item android:drawable="@drawable/csi_12" android:duration="4500" />
+    <item android:drawable="@drawable/csi_9" android:duration="4500" />
+    <item android:drawable="@drawable/csi_7" android:duration="4500" />
+    <item android:drawable="@drawable/csi_6" android:duration="4500" />
+    <item android:drawable="@drawable/csi_10" android:duration="4500" />
+    <item android:drawable="@drawable/csi_3" android:duration="4500" />
+
+
 
 </animation-list> 

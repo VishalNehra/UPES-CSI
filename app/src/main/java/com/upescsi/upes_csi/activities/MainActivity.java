@@ -69,12 +69,9 @@ public class MainActivity extends ActionBarActivity
                 fragmentManager.beginTransaction().replace(R.id.container, new EventsFragment()).commit();
                 break;
             case 1:
-                Toast.makeText(this, "Contact", Toast.LENGTH_LONG).show();
-                break;
-            case 2:
                 fragmentManager.beginTransaction().replace(R.id.container, new AboutFragment()).commit();
                 break;
-            case 3:
+            case 2:
                 fragmentManager.beginTransaction().replace(R.id.container, new TeamFragment()).commit();
                 break;
 
@@ -87,12 +84,9 @@ public class MainActivity extends ActionBarActivity
                 mTitle = getString(R.string.events);
                 break;
             case 2:
-                mTitle = getString(R.string.contact);
-                break;
-            case 3:
                 mTitle = getString(R.string.about);
                 break;
-            case 4:
+            case 3:
                 mTitle = getString(R.string.team);
                 break;
         }

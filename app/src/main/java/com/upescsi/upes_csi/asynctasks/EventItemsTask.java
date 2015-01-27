@@ -56,9 +56,8 @@ public class EventItemsTask extends AsyncTask<Void, Void, Void> {
             document = Jsoup.connect(URL_EVENTS).get();
             // Using elements to get class data
             Elements headers = document.select("h4[class=lh_inherit m_md_bottom_5 d_sm_none d_xs_block]");
-            Elements imgTags = document.select("img[src$=.jpg]");
-            Element pngTag = document.select("img[src$=.png").get(1);
-            imgTags.add(pngTag);
+            Elements imgTags = document.select("img[src]");
+            imgTags.remove(0);
             for (Element e : headers) {
                 eventTitleItems.add(e.text());
             }

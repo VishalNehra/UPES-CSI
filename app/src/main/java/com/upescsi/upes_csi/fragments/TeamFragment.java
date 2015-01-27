@@ -28,15 +28,13 @@ import com.upescsi.upes_csi.database.TeamHandler;
 
 import java.util.ArrayList;
 
-/**
- * Created by Vishal on 19-01-2015.
- */
 public class TeamFragment extends Fragment {
     private View rootView;
     public ListView listView;
     public TeamAdapter teamAdapter;
     private ArrayList<String> titleItems, summaryItems;
     private TeamHandler teamHandler;
+
 
     private static final int ARG_SECTION_NUMBER = 1;
 

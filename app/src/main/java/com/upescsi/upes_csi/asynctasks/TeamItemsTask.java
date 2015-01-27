@@ -58,7 +58,8 @@ public class TeamItemsTask extends AsyncTask<Void, Void, Void> {
                 eventTitleItems.add(e.text());
             }
             for (Element e : post) {
-                eventSummaryItems.add(e.text());
+
+                    eventSummaryItems.add(e.text());
             }
 
             event = new Event();
@@ -78,6 +79,7 @@ public class TeamItemsTask extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
+
 
         teamFragment.teamAdapter = new TeamAdapter(teamFragment.getActivity(), R.layout.team_layout, eventTitleItems, eventSummaryItems);
         teamFragment.listView.setAdapter(teamFragment.teamAdapter);

@@ -22,9 +22,6 @@ import com.upescsi.upes_csi.R;
 import com.upescsi.upes_csi.activities.MainActivity;
 import com.upescsi.upes_csi.adapters.EventsAdapter;
 import com.upescsi.upes_csi.adapters.TeamAdapter;
-import com.upescsi.upes_csi.asynctasks.TeamItemsTask;
-import com.upescsi.upes_csi.database.Event;
-import com.upescsi.upes_csi.database.TeamHandler;
 
 import java.util.ArrayList;
 
@@ -33,7 +30,6 @@ public class TeamFragment extends Fragment {
     public ListView listView;
     public TeamAdapter teamAdapter;
     private ArrayList<String> titleItems, summaryItems;
-    private TeamHandler teamHandler;
 
 
     private static final int ARG_SECTION_NUMBER = 1;
@@ -42,11 +38,23 @@ public class TeamFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView =  inflater.inflate(R.layout.fragment_team, null);
         listView = (ListView) rootView.findViewById(R.id.listView2);
-        teamHandler = new TeamHandler(getActivity(), null, null, 1);
-        titleItems = new ArrayList<String>();
-        summaryItems = new ArrayList<String>();
 
-        setView();
+        titleItems = new ArrayList<String>(){{add("Mr. Vinay Avasthi");add("Mr. Ajay Rawat");add("Paritosh Gupta");add("Rishabh Miglani");add("Ashna Mehta");
+            add("Akul Narang");add("Gautam Raj");add("Atulya Chandra");add("Divyansh Agarwal");add("Chirag Mangla");
+            add("Abhishek Tyagi");add("Shivani Srivastava");add("Niharika Sharma");add("Avish Sharma");add("Mayank Mahajan");
+            add("Saransh Mani");add("Mayur Arora");add("Soumil Agarwal");add("Rashmi Shukla");add("Ankit Jaggi");
+            add("Shubham Mathur");add("Nikhil Deo");add("Sarthak Khandelwal");}};
+
+        summaryItems = new ArrayList<String>(){{add("Branch Head");add("Student Branch Co-Ordinator");add("President");add("Vice President");add("Public Relation");
+            add("General Secretary");add("Treasurer");add("Secretary");add("Joint Secretary");add("Associative Treasurer");
+            add("Internal Public Relation");add("Associate Public Relation");add("Associate Public Relation");add("Marketing & Media Head");add("Working Committee Head");
+            add("Event Head");add("Associative Event Head");add("Associative Event Head");add("Chief Editor");add("Technical Head");
+            add("Designing Head");add("Branch Head");add("Branch Head");}};
+
+        teamAdapter = new TeamAdapter(getActivity(), android.R.layout.activity_list_item, titleItems, summaryItems);
+        listView.setAdapter(teamAdapter);
+
+
         setHasOptionsMenu(true);
         return rootView;
     }
@@ -62,8 +70,7 @@ public class TeamFragment extends Fragment {
         int id = item.getItemId();
         switch (id) {
             case R.id.refresh:
-                setView();
-        }
+       break; }
         return super.onOptionsItemSelected(item);
     }
 
@@ -73,32 +80,6 @@ public class TeamFragment extends Fragment {
         ((MainActivity) activity).onSectionAttached(ARG_SECTION_NUMBER);
     }
 
-    public boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo info = connectivityManager.getActiveNetworkInfo();
-        if (info != null && info.isConnected()) {
-            return true;
-        } else
-            return false;
-    }
 
-    private void setView() {
-
-        if (isNetworkAvailable()) {
-
-            new TeamItemsTask(this).execute();
-        } else {
-            if (teamHandler.getAllEvents().size()!=0) {
-                for (Event event : teamHandler.getAllEvents()) {
-                    titleItems.add(event.getEventTitle());
-                    summaryItems.add(event.getEventSummary());
-                }
-                teamAdapter = new TeamAdapter(getActivity(), android.R.layout.activity_list_item, titleItems, summaryItems);
-                listView.setAdapter(teamAdapter);
-            } else {
-                Toast.makeText(getActivity(), "Connect to internet..", Toast.LENGTH_LONG).show();
-            }
-        }
-    }
 
 }

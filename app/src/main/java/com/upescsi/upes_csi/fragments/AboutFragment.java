@@ -23,12 +23,6 @@ import android.widget.Toast;
 
 import com.upescsi.upes_csi.R;
 import com.upescsi.upes_csi.activities.MainActivity;
-import com.upescsi.upes_csi.adapters.EventsAdapter;
-import com.upescsi.upes_csi.asynctasks.AboutItemsTask;
-import com.upescsi.upes_csi.asynctasks.EventItemsTask;
-import com.upescsi.upes_csi.database.Event;
-import com.upescsi.upes_csi.database.EventHandler;
-
 import java.util.ArrayList;
 
 public class AboutFragment extends Fragment {
@@ -60,16 +54,13 @@ public class AboutFragment extends Fragment {
 
             i.printStackTrace();
         }
-setView();
+        textView1.setText(R.string.who_title);
+        textView2.setText(R.string.content);
 
         setHasOptionsMenu(true);
         return rootView;
     }
 
-    private void setView() {
-                 new AboutItemsTask(this).execute();
-
-        }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -82,7 +73,7 @@ setView();
         int id = item.getItemId();
         switch (id) {
             case R.id.refresh:
- setView();       }
+ break;       }
         return super.onOptionsItemSelected(item);
     }
 

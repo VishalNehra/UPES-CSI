@@ -16,6 +16,8 @@
     <string name="about">About</string>
     <string name="team">Our Team</string>
     <string name="refresh">Refresh</string>
+    <string name="who_title">Who We Are</string>
+    <string name="content">Formed in 1965, the CSI has been instrumental in guiding the India IT industry down the right path sinceits formative years. Today, the CSI has 70 chapaters all over India, 418 student branches, and more than 90000 members including India’s most famous IT industry leaders, brilliant Scientists and dedicated academicions.\n\nUPES-CSI Student Chapter has been an active chapter across the state. Its main mission is to facilitate research, knowledge sharing, learning and career enhancement for all categories of IT professionals and nurturing new entrants into the industry.</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_splash">SplashActivity</string>
     <string name="hello_world">Hello world!</string>

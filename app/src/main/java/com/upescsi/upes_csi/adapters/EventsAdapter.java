@@ -42,7 +42,6 @@ public class EventsAdapter extends ArrayAdapter<String> {
     ImageSize imageSize;
     RelativeLayout relativeLayout;
     private EventHandler eventHandler;
-    private Event event, event2;
 
     public EventsAdapter(Context context, int resource, ArrayList<String> titleItems
             , ArrayList<String> imageURLs) {
@@ -76,8 +75,6 @@ public class EventsAdapter extends ArrayAdapter<String> {
         eventImage = (ImageView) row.findViewById(R.id.eventImage);
         relativeLayout = (RelativeLayout) row.findViewById(R.id.events_row_parent);
 
-        eventImgWidths = new ArrayList<Integer>();
-        event = eventHandler.getAllEvents().get(position);
         imageSize = new ImageSize(240,240);
         ImageLoader.getInstance().loadImage(imageURLs.get(position), imageSize,
                 displayImageOptions, new SimpleImageLoadingListener() {
@@ -100,11 +97,9 @@ public class EventsAdapter extends ArrayAdapter<String> {
         if (bitmapWidth < holderWidth) {
             Log.d("image width", bitmapWidth + "" + " of " + position);
             eventTitle.setWidth(bitmapWidth);
-            event.setEventImgWidth(bitmapWidth);
         } else {
             Log.d("image width", holderWidth + " of " + position);
             eventTitle.setWidth(holderWidth);
-            event.setEventImgWidth(holderWidth);
         }
         //return 0;
     }

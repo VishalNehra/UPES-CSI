@@ -68,7 +68,6 @@ public class EventItemsTask extends AsyncTask<Void, Void, Void> {
             for (int i = 0 ; i<eventTitleItems.size(); i++) {
                 event.setEventNo(i);
                 event.setEventTitle(eventTitleItems.get(i));
-                //event.setEventImgWidth(0);
                 eventHandler.addEvent(event);
             }
 

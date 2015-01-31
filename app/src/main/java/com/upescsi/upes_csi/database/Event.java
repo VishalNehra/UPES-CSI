@@ -35,12 +35,4 @@ public class Event {
     public String getEventTitle() {
         return this._event_title;
     }
-
-    public void setEventImgWidth(int imageWidth) {
-        this._event_imgWidth = imageWidth;
-    }
-
-    public int getEventImgWidth() {
-        return this._event_imgWidth;
-    }
 }

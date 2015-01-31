@@ -2,6 +2,7 @@ package com.upescsi.upes_csi.database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -20,7 +21,7 @@ public class EventHandler extends SQLiteOpenHelper {
 
     private static final String COLUMN_EVENT_NO = "event_no";
     private static final String COLUMN_EVENT_TITLE = "title";
-    private static final String COLUMN_EVENT_SUMMARY = "summary";
+    private static final String COLUMN_EVENT_IMG_WIDTH = "img_width";
 
     public EventHandler(Context context, String name,
                      SQLiteDatabase.CursorFactory factory, int version) {
@@ -31,7 +32,8 @@ public class EventHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String CREATE_EVENTS_TABLE = "CREATE TABLE " + TABLE_EVENTS + "("
                 + COLUMN_EVENT_NO + " INTEGER,"
-                + COLUMN_EVENT_TITLE + " TEXT," + COLUMN_EVENT_SUMMARY + " TEXT" + ")";
+                + COLUMN_EVENT_TITLE + " TEXT,"
+                + COLUMN_EVENT_IMG_WIDTH + " INTEGER" + ")";
         db.execSQL(CREATE_EVENTS_TABLE);
     }
 
@@ -45,7 +47,7 @@ public class EventHandler extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_EVENT_NO, event.getEventNo());
         contentValues.put(COLUMN_EVENT_TITLE, event.getEventTitle());
-        contentValues.put(COLUMN_EVENT_SUMMARY, event.getEventSummary());
+        contentValues.put(COLUMN_EVENT_IMG_WIDTH, event.getEventImgWidth());
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         sqLiteDatabase.insert(TABLE_EVENTS, null, contentValues);
         sqLiteDatabase.close();
@@ -61,7 +63,7 @@ public class EventHandler extends SQLiteOpenHelper {
             cursor.moveToFirst();
             event.setEventNo(Integer.parseInt(cursor.getString(0)));
             event.setEventTitle(cursor.getString(1));
-            event.setEventSummary(cursor.getString(2));
+            event.setEventImgWidth(Integer.parseInt(cursor.getString(2)));
             cursor.close();
         } else {
             event = null;
@@ -81,7 +83,7 @@ public class EventHandler extends SQLiteOpenHelper {
                 Event event = new Event();
                 event.setEventNo(Integer.parseInt(cursor.getString(0)));
                 event.setEventTitle(cursor.getString(1));
-                event.setEventSummary(cursor.getString(2));
+                event.setEventImgWidth(Integer.parseInt(cursor.getString(2)));
                 // Adding them to list
                 eventList.add(event);
             } while (cursor.moveToNext());
@@ -94,6 +96,14 @@ public class EventHandler extends SQLiteOpenHelper {
     public void clear() {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         sqLiteDatabase.delete(TABLE_EVENTS, null, null);
+        sqLiteDatabase.close();
+    }
+
+    public void updateEvent(Event event) {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_EVENT_IMG_WIDTH, event.getEventImgWidth());
+        sqLiteDatabase.update(TABLE_EVENTS, contentValues, COLUMN_EVENT_NO + "=" + event.getEventNo(), null);
         sqLiteDatabase.close();
     }
 }

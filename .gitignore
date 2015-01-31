@@ -52,3 +52,4 @@ gradlew
 gradlew.bat
 .project
 UPES-CSI.iml
+app/app.iml

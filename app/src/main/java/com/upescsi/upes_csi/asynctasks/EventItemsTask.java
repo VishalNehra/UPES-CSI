@@ -24,7 +24,7 @@ import java.util.List;
 public class EventItemsTask extends AsyncTask<Void, Void, Void> {
     private static final String URL_EVENTS = "http://upescsi.in/event.html";
     private static final String URL = "http://upescsi.in";
-    private ArrayList<String> eventTitleItems, eventSummaryItems, eventImageURLs;
+    private ArrayList<String> eventTitleItems, eventImageURLs;
     private EventsFragment eventsFragment;
     private Document document;
     private EventHandler eventHandler;
@@ -50,7 +50,6 @@ public class EventItemsTask extends AsyncTask<Void, Void, Void> {
         try {
 
             eventTitleItems = new ArrayList<String>();
-            eventSummaryItems = new ArrayList<String>();
             eventImageURLs = new ArrayList<String>();
             
             document = Jsoup.connect(URL_EVENTS).get();
@@ -62,7 +61,6 @@ public class EventItemsTask extends AsyncTask<Void, Void, Void> {
                 eventTitleItems.add(e.text());
             }
             for (Element e : imgTags) {
-                eventSummaryItems.add(URL + "/" + e.attr("src"));
                 eventImageURLs.add(URL + "/" + e.attr("src"));
             }
 
@@ -70,7 +68,7 @@ public class EventItemsTask extends AsyncTask<Void, Void, Void> {
             for (int i = 0 ; i<eventTitleItems.size(); i++) {
                 event.setEventNo(i);
                 event.setEventTitle(eventTitleItems.get(i));
-                event.setEventSummary(eventSummaryItems.get(i));
+                //event.setEventImgWidth(0);
                 eventHandler.addEvent(event);
             }
 
@@ -85,7 +83,7 @@ public class EventItemsTask extends AsyncTask<Void, Void, Void> {
         super.onPostExecute(aVoid);
 
         eventsFragment.eventsAdapter = new EventsAdapter(eventsFragment.getActivity(),
-                R.layout.events_row, eventTitleItems, eventSummaryItems, eventImageURLs);
+                R.layout.events_row, eventTitleItems, eventImageURLs);
         eventsFragment.listView.setAdapter(eventsFragment.eventsAdapter);
     }
 }

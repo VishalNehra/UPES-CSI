@@ -20,6 +20,8 @@ import com.nostra13.universalimageloader.core.assist.ImageSize;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.upescsi.upes_csi.R;
+import com.upescsi.upes_csi.database.Event;
+import com.upescsi.upes_csi.database.EventHandler;
 
 import java.util.ArrayList;
 
@@ -29,23 +31,27 @@ import java.util.ArrayList;
 public class EventsAdapter extends ArrayAdapter<String> {
     private Context context;
     private View row;
-    private TextView eventTitle, eventSummary;
+    private TextView eventTitle;
     private ImageView eventImage;
-    private ArrayList<String> titleItems, summaryItems, imageURLs;
+    private ArrayList<String> titleItems, imageURLs;
+    private ArrayList<Integer> eventImgWidths;
     private ImageLoader imageLoader;
     DisplayImageOptions imageOptions;
     private ImageLoaderConfiguration imageLoaderConfiguration;
     private DisplayImageOptions displayImageOptions;
     ImageSize imageSize;
     RelativeLayout relativeLayout;
+    private EventHandler eventHandler;
+    private Event event, event2;
 
-    public EventsAdapter(Context context, int resource, ArrayList<String> titleItems,
-                         ArrayList<String> summaryItems, ArrayList<String> imageURLs) {
+    public EventsAdapter(Context context, int resource, ArrayList<String> titleItems
+            , ArrayList<String> imageURLs) {
         super(context, resource, titleItems);
         this.context = context;
         this.titleItems = titleItems;
-        this.summaryItems = summaryItems;
         this.imageURLs = imageURLs;
+
+        eventHandler = new EventHandler(context, null, null, 1);
 
         // Image loaders
         // Create default options which will be used for every displayImage() call
@@ -67,31 +73,39 @@ public class EventsAdapter extends ArrayAdapter<String> {
         row = inflater.inflate(R.layout.events_row, null);
         eventTitle = (TextView) row.findViewById(R.id.eventTitle);
         eventTitle.setText(titleItems.get(position));
-        eventSummary = (TextView) row.findViewById(R.id.eventSummary);
         eventImage = (ImageView) row.findViewById(R.id.eventImage);
-        eventSummary.setText(summaryItems.get(position));
         relativeLayout = (RelativeLayout) row.findViewById(R.id.events_row_parent);
 
+        eventImgWidths = new ArrayList<Integer>();
+        event = eventHandler.getAllEvents().get(position);
         imageSize = new ImageSize(240,240);
-        //ImageLoader.getInstance().displayImage(summaryItems.get(position), eventImage, displayImageOptions);
-        ImageLoader.getInstance().loadImage(summaryItems.get(position), imageSize,
+        ImageLoader.getInstance().loadImage(imageURLs.get(position), imageSize,
                 displayImageOptions, new SimpleImageLoadingListener() {
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                         // Do whatever you want with Bitmap
                         eventImage.setImageBitmap(loadedImage);
-                        int holderWidth = eventImage.getWidth();
-                        int bitmapWidth = loadedImage.getWidth();
-                        if (bitmapWidth < holderWidth) {
-                            Log.d("image width", bitmapWidth + "" + " of " + position);
-                            eventTitle.setWidth(bitmapWidth);
-                        } else {
-                            Log.d("image width", holderWidth + " of " + position);
-                            eventTitle.setWidth(holderWidth);
-                        }
+                        checkWidth(loadedImage, position);
                     }
                 });
+        //ImageLoader.getInstance().displayImage(summaryItems.get(position), eventImage, displayImageOptions);
+
         eventTitle.setBackgroundColor(Color.parseColor("#50989898"));
         return row;
+    }
+
+    private void checkWidth(Bitmap loadedImage, int position) {
+        int holderWidth = 480;
+        int bitmapWidth = loadedImage.getWidth();
+        if (bitmapWidth < holderWidth) {
+            Log.d("image width", bitmapWidth + "" + " of " + position);
+            eventTitle.setWidth(bitmapWidth);
+            event.setEventImgWidth(bitmapWidth);
+        } else {
+            Log.d("image width", holderWidth + " of " + position);
+            eventTitle.setWidth(holderWidth);
+            event.setEventImgWidth(holderWidth);
+        }
+        //return 0;
     }
 }

@@ -36,7 +36,7 @@ public class EventsFragment extends Fragment {
     private View rootView;
     public ListView listView;
     public EventsAdapter eventsAdapter;
-    private ArrayList<String> titleItems, summaryItems;
+    private ArrayList<String> titleItems;
     private EventHandler eventHandler;
 
     private static final int ARG_SECTION_NUMBER = 1;
@@ -47,7 +47,6 @@ public class EventsFragment extends Fragment {
         listView = (ListView) rootView.findViewById(R.id.listView);
         eventHandler = new EventHandler(getActivity(), null, null, 1);
         titleItems = new ArrayList<String>();
-        summaryItems = new ArrayList<String>();
         //getActivity().getWindow().getDecorView().setBackgroundColor(Color.WHITE);
         listView.setBackgroundColor(Color.WHITE);
 
@@ -59,7 +58,7 @@ public class EventsFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.events_menu, menu);
+        inflater.inflate(R.menu.menu_events, menu);
     }
 
     @Override
@@ -96,10 +95,9 @@ public class EventsFragment extends Fragment {
             if (eventHandler.getAllEvents().size()!=0) {
                 for (Event event : eventHandler.getAllEvents()) {
                     titleItems.add(event.getEventTitle());
-                    summaryItems.add(event.getEventSummary());
                 }
                 eventsAdapter = new EventsAdapter(getActivity(), android.R.layout.activity_list_item,
-                        titleItems, summaryItems, null);
+                        titleItems, null);
                 listView.setAdapter(eventsAdapter);
             } else {
                 Toast.makeText(getActivity(), "Connect to internet..", Toast.LENGTH_LONG).show();
